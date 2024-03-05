@@ -1,64 +1,95 @@
-/* General App Styling */
-.App {
-  text-align: center;
-  font-family: Arial, sans-serif;
-  margin: 20px;
+:root {
+  --primary-color: #007bff;
+  --background-gradient-start: #b6a1cc;
+  --background-gradient-end: #2575fc;
+  --login-form-background: rgba(255, 255, 255, 0.2); /* For a frosted glass look */
+  --login-btn-hover-color: #0056b3;
 }
 
-.App-header {
-  background-color: #282c34;
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to right, var(--background-gradient-start), var(--background-gradient-end));
   color: white;
-  padding: 20px;
 }
 
-main {
+.App {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.login-form-container {
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  background: var(--login-form-background);
+  backdrop-filter: blur(10px);
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.input-group {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.login-form h2 {
+  margin-bottom: 30px;
+}
+
+.login-form input {
+  width: calc(100% - 24px); /* Adjust width based on padding */
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  margin-top: 6px;
+  box-sizing: border-box;
+  transition: 0.3s;
+}
+
+.login-form input:focus {
+  outline: none;
+  box-shadow: 0 0 8px var(--primary-color);
+}
+
+.login-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--primary-color);
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.login-btn:hover {
+  background-color: var(--login-btn-hover-color);
+}
+
+#signInDiv {
   margin-top: 20px;
 }
 
-/* Component Styling */
-div {
-  margin: 20px auto;
+.separator {
+  margin: 20px 0;
+  text-align: center;
+}
+
+
+.info-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   padding: 20px;
-  max-width: 600px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-h1, h2 {
-  color: #333;
-}
-
-p, li {
-  color: #666;
-  line-height: 1.6;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-/* Utility Classes */
-.clearfix::after {
-  content: "";
-  clear: both;
-  display: table;
-}
-
-.text-left {
-  text-align: left;
-}
-
-.text-right {
-  text-align: right;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  div {
-    width: 90%;
-    padding: 10px;
-  }
 }

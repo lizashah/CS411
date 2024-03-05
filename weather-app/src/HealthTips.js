@@ -1,11 +1,13 @@
 import React from 'react';
+import './HealthTips.css'; // Assuming you create a separate CSS file for styling
 
 const HealthTips = () => {
   return (
-    <div>
+    <div className="health-tips">
       <h2>Health Tips</h2>
       <ul>
-        <li>Stay hydrated and drink plenty of water.</li>
+        <li>Stay hydrated</li>
+        {/* Add more health tips as needed */}
       </ul>
     </div>
   );
