@@ -1,9 +1,9 @@
 :root {
-  --primary-color: #007bff;
-  --background-gradient-start: #b6a1cc;
-  --background-gradient-end: #2575fc;
+  --primary-color: #ff6347; /* Coral */
+  --background-gradient-start: #ffefd5; /* Papaya Whip */
+  --background-gradient-end: #87ceeb; /* Sky Blue */
   --login-form-background: rgba(255, 255, 255, 0.2); /* For a frosted glass look */
-  --login-btn-hover-color: #0056b3;
+  --login-btn-hover-color: #cd5c5c; /* Indian Red */
 }
 
 body, html {
@@ -21,6 +21,27 @@ body, html {
   height: 100%;
   
 }
+.App-header button {
+  position: absolute;
+  top: 20px; /* Adjust top spacing */
+  right: 20px; /* Adjust right spacing */
+  padding: 8px 16px; /* Adjust padding for better size */
+  font-size: 14px; /* Adjust font size */
+  background-color: #ff6347;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.App-header button:hover {
+  background-color: #cd5c5c;
+}
+.App-header h1 {
+  color: #333333; 
+  padding-left: 100px;/* Change the color to dark gray */
+}
 
 .login-form-container {
   padding: 40px;
@@ -30,6 +51,13 @@ body, html {
   backdrop-filter: blur(10px);
   width: 100%;
   max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  margin-top: 170px;
+  height: 50vh;
 }
 
 .login-form {
@@ -41,10 +69,12 @@ body, html {
 .input-group {
   width: 100%;
   margin-bottom: 20px;
+  color: #333333;
 }
 
 .login-form h2 {
   margin-bottom: 30px;
+  color: #333333;
 }
 
 .login-form input {
@@ -63,9 +93,10 @@ body, html {
 }
 
 .login-btn {
-  width: 100%;
+  width: 94%;
   padding: 12px;
   border: none;
+  height: 35px;
   border-radius: 5px;
   background-color: var(--primary-color);
   color: white;

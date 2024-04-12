@@ -2,6 +2,7 @@
   padding: 20px;
   border-radius: 8px;
   background-color: #f0f0f0;
+  
   width: 45%; /* Specific width */
   height: 330px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
@@ -9,7 +10,8 @@
 }
 .weather-display .location-input input {
   width: calc(100% - 50px); /* Adjust the width to fill the container minus padding */
-  padding: 10px; /* Padding for better text visibility */
+  padding: 10px;
+  font-size: 13px; /* Padding for better text visibility */
   border: 2px solid #ccc; /* Light gray border */
   border-radius: 5px; /* Rounded corners */
   margin-bottom: 10px; /* Space below the input field */
@@ -25,8 +27,9 @@
 
 .weather-display .location-input button {
   width: calc(100% - 50px); /* Full width of the container */
-  padding: 10px; /* Padding for better clickability */
-  background-color: #007bff; /* Primary blue background */
+  padding: 10px;
+  font-size: 13px; /* Padding for better clickability */
+  background-color: #ff6347; /* Primary blue background */
   color: white; /* White text color */
   border: none; /* No border */
   border-radius: 5px; /* Rounded corners */
@@ -35,7 +38,7 @@
 }
 
 .weather-display .location-input button:hover {
-  background-color: #0056b3; /* Darker blue on hover */
+  background-color: #cd5c5c; /* Darker blue on hover */
   box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Subtle shadow for depth */
 }
 
