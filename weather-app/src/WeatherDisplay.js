@@ -33,6 +33,48 @@ const WeatherDisplay = () => {
     setFetchData(true); // Set fetchData state to true when "Get Weather" button is clicked
   };
 
+  const getUVRecommendation = (uvIndex) => {
+    if (uvIndex < 3) {
+      return 'Low UV Index: No protection needed.';
+    } else if (uvIndex < 6) {
+      return 'Moderate UV Index: Wear sunscreen and protective clothing.';
+    } else if (uvIndex < 8) {
+      return 'High UV Index: Take extra precautions, such as seeking shade and wearing a hat.';
+    } else if (uvIndex < 11) {
+      return 'Very High UV Index: Avoid sun exposure during midday hours.';
+    } else {
+      return 'Extreme UV Index: Minimize sun exposure and take all precautions.';
+    }
+  };
+
+  const getTemperatureRecommendation = (temp) => {
+    if (temp > 30) {
+      return 'High Temperature: Stay hydrated and avoid prolonged outdoor activities.';
+    } else if (temp < 5) {
+      return 'Low Temperature: Dress warmly and limit exposure to cold air.';
+    } else {
+      return 'Temperature is comfortable.';
+    }
+  };
+
+  const getHumidityRecommendation = (humidity) => {
+    if (humidity > 70) {
+      return 'High Humidity: Stay hydrated and avoid overexertion.';
+    } else if (humidity < 30) {
+      return 'Low Humidity: Drink plenty of fluids to prevent dehydration.';
+    } else {
+      return 'Humidity is moderate.';
+    }
+  };
+
+  const getWindSpeedRecommendation = (windSpeed) => {
+    if (windSpeed > 10) {
+      return 'High Wind Speed: Secure loose objects and use caution when outdoors.';
+    } else {
+      return 'Wind speed is moderate.';
+    }
+  };
+
   return (
     <div className="weather-display">
       <h2>Weather Forecast</h2>
@@ -49,7 +91,15 @@ const WeatherDisplay = () => {
         <>
           <p>Temperature: {weatherData.main.temp}°C</p>
           <p>Humidity: {weatherData.main.humidity}%</p>
+          <p>Visibility: {weatherData.visibility} meters</p>
+          <p>Pressure: {weatherData.main.pressure} hPa</p>
           <p>Condition: {weatherData.weather[0].description}</p>
+          <p>UV Index: {weatherData.uvi}</p>
+          <p>Wind Speed: {weatherData.wind.speed} m/s</p>
+          <p>{getUVRecommendation(weatherData.uvi)}</p>
+          <p>{getTemperatureRecommendation(weatherData.main.temp)}</p>
+          <p>{getHumidityRecommendation(weatherData.main.humidity)}</p>
+          <p>{getWindSpeedRecommendation(weatherData.wind.speed)}</p>
         </>
       ) : (
         <p>Please enter a location and click "Get Weather" to fetch weather data.</p>
