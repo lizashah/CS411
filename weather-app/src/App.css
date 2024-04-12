@@ -19,6 +19,7 @@ body, html {
   justify-content: center;
   align-items: center;
   height: 100%;
+  
 }
 
 .login-form-container {
@@ -84,12 +85,34 @@ body, html {
   margin: 20px 0;
   text-align: center;
 }
+.info-container {
+  display: flex;
+  justify-content: space-between;
+  
+  
+}
+
+.weather-display {
+  flex: 1;
+  margin-right: 10px; /* Adjust margin as needed */
+}
+
+.health-tips {
+  flex: 1;
+  margin-left: 10px; /* Adjust margin as needed */
+}
 
 
 .info-display {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
+  justify-content: space-around; /* Ensures equal spacing around items */
+  align-items: start; /* Aligns items to the top of the container */
+  flex-wrap: wrap; /* Allows items to wrap onto the next line on smaller screens */
+  padding: 20px; /* Adds padding around items */
+  width: 800px; /* Set a static width */
+  margin: 0 auto; 
+  
+  
 }
+
+

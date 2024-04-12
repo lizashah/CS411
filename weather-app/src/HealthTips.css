@@ -2,6 +2,8 @@
     padding: 20px;
     border-radius: 8px;
     background-color: #f0f0f0;
+    width: 45%; /* Specific width */
+    height: 330px; /* Specific height */
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   }
   
@@ -18,4 +20,5 @@
     margin-bottom: 10px;
     color: #666;
   }
+  
   
