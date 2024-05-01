@@ -3,6 +3,7 @@ import jwt_decode from "jwt-decode";
 import './App.css';
 import WeatherDisplay from './WeatherDisplay';
 import HealthTips from './HealthTips';
+import GeneticDiseaseSelector from './GeneticDiseaseSelector';
 
 function App() {
   const [user, setUser] = useState({});
@@ -135,6 +136,7 @@ function App() {
           <main className="info-display">
             <WeatherDisplay updateHealthRecommendations={updateHealthRecommendations} />
             <HealthTips recommendations={healthRecommendations} />
+            <GeneticDiseaseSelector />
           </main>
         </div>
       )}
