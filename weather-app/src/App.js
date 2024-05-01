@@ -4,26 +4,53 @@ import './App.css';
 import WeatherDisplay from './WeatherDisplay';
 import HealthTips from './HealthTips';
 import GeneticDiseaseSelector from './GeneticDiseaseSelector';
+import { ref, set } from "firebase/database";
+import { db } from './firebase-config'; // Make sure this path is correct
 
 function App() {
   const [user, setUser] = useState({});
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [healthRecommendations, setHealthRecommendations] = useState(null); // Define the state for health recommendations here
+  const [healthRecommendations, setHealthRecommendations] = useState(null);
+  const [selectedDiseases, setSelectedDiseases] = useState(new Set());
 
   function handleCallbackResponse(response) {
     console.log("Encoded JWT ID token: " + response.credential);
     var userObject = jwt_decode(response.credential);
     setUser(userObject);
+    saveUserData(userObject.sub, userObject.name, userObject.email); // Save to Firebase
     const signInDiv = document.getElementById("signInDiv");
     if (signInDiv) signInDiv.hidden = true;
   }
 
-  function handleSignOut(event) {
+  function handleSignOut() {
     setUser({});
     const signInDiv = document.getElementById("signInDiv");
     if (signInDiv) signInDiv.hidden = false;
   }
+
+  const saveUserData = (userId, name, email) => {
+    set(ref(db, 'users/' + userId), {
+      username: name,
+      email: email
+    });
+  };
+
+  useEffect(() => {
+    /* global google */
+    google.accounts.id.initialize({
+      client_id: "850002868075-riog8tkerkj6rm9p4981v1c208i7fi64.apps.googleusercontent.com",
+      callback: handleCallbackResponse
+    });
+
+    google.accounts.id.renderButton(
+      document.getElementById("signInDiv"),
+      { theme: "outline", size: "large" }
+    );
+
+    google.accounts.id.prompt();
+  }, []);
+
 
   const updateHealthRecommendations = (data) => {
     setHealthRecommendations({
@@ -86,22 +113,6 @@ function App() {
     }
   };
 
-
-  useEffect(() => {
-    /* global google */
-    google.accounts.id.initialize({
-      client_id: "850002868075-riog8tkerkj6rm9p4981v1c208i7fi64.apps.googleusercontent.com",
-      callback: handleCallbackResponse
-    });
-
-    google.accounts.id.renderButton(
-      document.getElementById("signInDiv"),
-      { theme: "outline", size: "large" }
-    );
-
-    google.accounts.id.prompt();
-  }, []);
-
   return (
     <div className="App">
       {!user.name ? (
@@ -137,6 +148,7 @@ function App() {
             <WeatherDisplay updateHealthRecommendations={updateHealthRecommendations} />
             <HealthTips recommendations={healthRecommendations} />
             <GeneticDiseaseSelector />
+            
           </main>
         </div>
       )}
