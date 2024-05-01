@@ -1,38 +1,59 @@
 import React, { useEffect, useState } from 'react';
 import jwt_decode from "jwt-decode";
 import './App.css';
+import DiseaseSelector from './DiseaseSelector';
 import WeatherDisplay from './WeatherDisplay';
 import HealthTips from './HealthTips';
-import GeneticDiseaseSelector from './GeneticDiseaseSelector';
-import { ref, set } from "firebase/database";
-import { db } from './firebase-config'; // Make sure this path is correct
+import { ref, set, get, child, update } from "firebase/database";
+import { db } from './firebase-config';
 
 function App() {
   const [user, setUser] = useState({});
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [selectedDiseases, setSelectedDiseases] = useState([]);
+  const [showDiseaseSelection, setShowDiseaseSelection] = useState(false);
   const [healthRecommendations, setHealthRecommendations] = useState(null);
-  const [selectedDiseases, setSelectedDiseases] = useState(new Set());
+  const [showWeatherAndHealthInfo, setShowWeatherAndHealthInfo] = useState(false);
 
   function handleCallbackResponse(response) {
-    console.log("Encoded JWT ID token: " + response.credential);
     var userObject = jwt_decode(response.credential);
     setUser(userObject);
-    saveUserData(userObject.sub, userObject.name, userObject.email); // Save to Firebase
-    const signInDiv = document.getElementById("signInDiv");
-    if (signInDiv) signInDiv.hidden = true;
+    checkAndSaveUserData(userObject.sub, userObject.name, userObject.email);
+    fetchExistingDiseases(userObject.sub);
+    setShowDiseaseSelection(true);
   }
 
   function handleSignOut() {
     setUser({});
-    const signInDiv = document.getElementById("signInDiv");
-    if (signInDiv) signInDiv.hidden = false;
+    setShowDiseaseSelection(false);
+    setShowWeatherAndHealthInfo(false);
   }
 
-  const saveUserData = (userId, name, email) => {
-    set(ref(db, 'users/' + userId), {
-      username: name,
-      email: email
+  const checkAndSaveUserData = (userId, name, email) => {
+    const userRef = ref(db, 'users/' + userId);
+    get(userRef).then((snapshot) => {
+      if (!snapshot.exists()) {
+        set(userRef, {
+          username: name,
+          email: email
+        });
+      }
+    }).catch((error) => {
+      console.error("Failed to check or save user data", error);
+    });
+  };
+
+  const fetchExistingDiseases = (userId) => {
+    get(child(ref(db), `users/${userId}/selectedDiseases`)).then((snapshot) => {
+      if (snapshot.exists()) {
+        setSelectedDiseases(snapshot.val() || []);
+      } else {
+        console.log("No diseases found for user.");
+        setSelectedDiseases([]); // Ensure state is cleared if no data found
+      }
+    }).catch((error) => {
+      console.error("Failed to retrieve data", error);
     });
   };
 
@@ -51,6 +72,10 @@ function App() {
     google.accounts.id.prompt();
   }, []);
 
+  const handleDiseaseSelectionSubmit = () => {
+    set(ref(db, 'users/' + user.sub + '/selectedDiseases'), Array.from(selectedDiseases));
+    setShowWeatherAndHealthInfo(true);
+  };
 
   const updateHealthRecommendations = (data) => {
     setHealthRecommendations({
@@ -112,6 +137,7 @@ function App() {
       return 'Wind speed is moderate.';
     }
   };
+  
 
   return (
     <div className="App">
@@ -145,15 +171,30 @@ function App() {
             <button onClick={handleSignOut}>Sign Out</button>
           </header>
           <main className="info-display">
-            <WeatherDisplay updateHealthRecommendations={updateHealthRecommendations} />
+            {showDiseaseSelection && !showWeatherAndHealthInfo && (
+              <DiseaseSelector selectedDiseases={selectedDiseases} onSelect={(disease) => {
+                const updatedSelections = new Set(selectedDiseases);
+                if (updatedSelections.has(disease)) {
+                  updatedSelections.delete(disease);
+                } else {
+                  updatedSelections.add(disease);
+                }
+                setSelectedDiseases(Array.from(updatedSelections));
+              }} />
+            )}
+            {showDiseaseSelection && !showWeatherAndHealthInfo && (
+              <button onClick={handleDiseaseSelectionSubmit}>Submit Selections</button>
+            )}
+            {showWeatherAndHealthInfo && (
+              <>
+                <WeatherDisplay updateHealthRecommendations={updateHealthRecommendations} />
             <HealthTips recommendations={healthRecommendations} />
-            <GeneticDiseaseSelector />
-            
+              </>
+            )}
           </main>
         </div>
       )}
     </div>
-
   );
 }
 
