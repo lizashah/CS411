@@ -4,8 +4,8 @@ import './App.css';
 import DiseaseSelector from './DiseaseSelector';
 import WeatherDisplay from './WeatherDisplay';
 import HealthTips from './HealthTips';
-import { ref, set, get, child } from "firebase/database";
-import { db } from './firebase-config'; // Make sure this path is correct
+import { ref, set, get, child, update } from "firebase/database";
+import { db } from './firebase-config';
 
 function App() {
   const [user, setUser] = useState({});
@@ -19,7 +19,7 @@ function App() {
   function handleCallbackResponse(response) {
     var userObject = jwt_decode(response.credential);
     setUser(userObject);
-    saveUserData(userObject.sub, userObject.name, userObject.email);
+    checkAndSaveUserData(userObject.sub, userObject.name, userObject.email);
     fetchExistingDiseases(userObject.sub);
     setShowDiseaseSelection(true);
   }
@@ -30,19 +30,27 @@ function App() {
     setShowWeatherAndHealthInfo(false);
   }
 
-  const saveUserData = (userId, name, email) => {
-    set(ref(db, 'users/' + userId), {
-      username: name,
-      email: email
+  const checkAndSaveUserData = (userId, name, email) => {
+    const userRef = ref(db, 'users/' + userId);
+    get(userRef).then((snapshot) => {
+      if (!snapshot.exists()) {
+        set(userRef, {
+          username: name,
+          email: email
+        });
+      }
+    }).catch((error) => {
+      console.error("Failed to check or save user data", error);
     });
   };
 
   const fetchExistingDiseases = (userId) => {
     get(child(ref(db), `users/${userId}/selectedDiseases`)).then((snapshot) => {
       if (snapshot.exists()) {
-        setSelectedDiseases(snapshot.val());
+        setSelectedDiseases(snapshot.val() || []);
       } else {
         console.log("No diseases found for user.");
+        setSelectedDiseases([]); // Ensure state is cleared if no data found
       }
     }).catch((error) => {
       console.error("Failed to retrieve data", error);
@@ -65,8 +73,7 @@ function App() {
   }, []);
 
   const handleDiseaseSelectionSubmit = () => {
-    const newSet = new Set([...selectedDiseases]);
-    set(ref(db, 'users/' + user.sub + '/selectedDiseases'), Array.from(newSet));
+    set(ref(db, 'users/' + user.sub + '/selectedDiseases'), Array.from(selectedDiseases));
     setShowWeatherAndHealthInfo(true);
   };
 
