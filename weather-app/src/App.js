@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import jwt_decode from "jwt-decode";
 import './App.css';
 import DiseaseSelector from './DiseaseSelector';
 import WeatherDisplay from './WeatherDisplay';
 import HealthTips from './HealthTips';
-import { ref, set, get, child, update } from "firebase/database";
+import { ref, set, get, child } from "firebase/database";
 import { db } from './firebase-config';
 
 function App() {
@@ -34,27 +34,20 @@ function App() {
     const userRef = ref(db, 'users/' + userId);
     get(userRef).then((snapshot) => {
       if (!snapshot.exists()) {
-        set(userRef, {
-          username: name,
-          email: email
-        });
+        set(userRef, { username: name, email: email });
       }
-    }).catch((error) => {
-      console.error("Failed to check or save user data", error);
-    });
+    }).catch((error) => console.error("Failed to check or save user data", error));
   };
 
   const fetchExistingDiseases = (userId) => {
     get(child(ref(db), `users/${userId}/selectedDiseases`)).then((snapshot) => {
-      if (snapshot.exists()) {
-        setSelectedDiseases(snapshot.val() || []);
+      if (snapshot.exists() && Array.isArray(snapshot.val())) {
+        setSelectedDiseases(snapshot.val());
       } else {
-        console.log("No diseases found for user.");
-        setSelectedDiseases([]); // Ensure state is cleared if no data found
+        console.log("No diseases found for user or data format incorrect.");
+        setSelectedDiseases([]);
       }
-    }).catch((error) => {
-      console.error("Failed to retrieve data", error);
-    });
+    }).catch((error) => console.error("Failed to retrieve data", error));
   };
 
   useEffect(() => {
@@ -64,11 +57,7 @@ function App() {
       callback: handleCallbackResponse
     });
 
-    google.accounts.id.renderButton(
-      document.getElementById("signInDiv"),
-      { theme: "outline", size: "large" }
-    );
-
+    google.accounts.id.renderButton(document.getElementById("signInDiv"), { theme: "outline", size: "large" });
     google.accounts.id.prompt();
   }, []);
 
@@ -187,7 +176,7 @@ function App() {
             )}
             {showWeatherAndHealthInfo && (
               <>
-                <WeatherDisplay updateHealthRecommendations={updateHealthRecommendations} />
+                <WeatherDisplay updateHealthRecommendations={setHealthRecommendations} selectedDiseases={selectedDiseases} />
             <HealthTips recommendations={healthRecommendations} />
               </>
             )}
