@@ -6,11 +6,10 @@ import OpenAI from 'openai';
 
 const WeatherDisplay = ({ updateHealthRecommendations, selectedDiseases }) => {
   const [weatherData, setWeatherData] = useState(null);
-  const [location, setLocation] = useState('');
+  const [airPollutionData, setAirPollutionData] = useState(null);  const [location, setLocation] = useState('');
   const [fetchData, setFetchData] = useState(false); // State to track fetch
   const [response, setResponse] = useState('');
   const [response1, setResponse1] = useState('');
-  const [airPollutionData, setAirPollutionData] = useState(null);
   
   
   const API_KEY = '04ae16b1094cee2dac21deb82bf0f81b'; 
@@ -41,7 +40,7 @@ const WeatherDisplay = ({ updateHealthRecommendations, selectedDiseases }) => {
     if (!selectedDiseases.length) return;  // Check if there are selected diseases
     const diseasesList = selectedDiseases.join(", ");
     const airQualityInfo = `Air Quality Index (AQI): ${airPollutionData.list[0].main.aqi}, PM2.5 Level: ${airPollutionData.list[0].components.pm2_5} µg/m³, Ozone (O3) Level: ${airPollutionData.list[0].components.o3} µg/m³`;
-    const prompt = `Given the current weather conditions with a temperature of ${weather.main.temp}°C, humidity at ${weather.main.humidity}%, ${weather.weather[0].description}, visibility of ${weather.visibility} meters, wind speed of ${weather.wind.speed} m/s, ${airQualityInfo} Air Quality Index: Possible values: 1, 2, 3, 4, 5. Where 1 = Good, 2 = Fair, 3 = Moderate, 4 = Poor, 5 = Very Poor, and health conditions including ${diseasesList}, for the diseases and temperature should I go out, what preacautions should I take and appropriate health recommendations?`;
+    const prompt = `Given the current weather conditions with a temperature of ${weather.main.temp}°C, humidity at ${weather.main.humidity}%, ${weather.weather[0].description}, visibility of ${weather.visibility} meters, wind speed of ${weather.wind.speed} m/s, ${airQualityInfo} Air Quality Index: Possible values: 1, 2, 3, 4, 5. Where 1 = Good, 2 = Fair, 3 = Moderate, 4 = Poor, 5 = Very Poor, and health conditions including ${diseasesList}, for the diseases and temperature should I go out, what preacautions should I take and appropriate health recommendations? Give response in 200 words `;
 
     
 
@@ -55,7 +54,7 @@ const WeatherDisplay = ({ updateHealthRecommendations, selectedDiseases }) => {
           }
         ],
         temperature: 0.5,
-        max_tokens: 60,
+        max_tokens: 1000,
       });
   
       console.log('API Response:', JSON.stringify(result, null, 2)); // Better visibility of the structure
@@ -125,37 +124,46 @@ const handleGetAirPollution = () => {
 
   return (
     <div className="weather-display">
-      <h2>Weather Forecast</h2>
-      <div className="location-input">
-        <input 
-          type="text" 
-          placeholder="Enter location..." 
-          value={location} 
-          onChange={(e) => setLocation(e.target.value)} 
-        />
-        <button onClick={handleCombinedClick}>Get Weather</button>
-      </div>
-      {weatherData ? (
-        <>
-          <p>Temperature: {weatherData.main.temp}°C</p>
-          <p>Humidity: {weatherData.main.humidity}%</p>
-          <p>Condition: {weatherData.weather[0].description}</p>
-          <p>Visibility Index: {weatherData.visibility}</p>
-          <p>Wind Speed: {weatherData.wind.speed} m/s</p>
-          {airPollutionData && (
-                <>
-                    <p>Air Quality Index (AQI): {airPollutionData.list[0].main.aqi}</p>
-                    <p>PM2.5 Level: {airPollutionData.list[0].components.pm2_5} µg/m³</p>
-                    <p>Ozone (O3) Level: {airPollutionData.list[0].components.o3} µg/m³</p>
-                </>
-            )}
-          <h3>Health Recommendations</h3>
-          <p>{response}</p>
-        </>
-      ) : (
-        <p>Please enter a location and click "Get Weather" to fetch weather data.</p>
-      )}
-    </div>
+  
+  <div className="location-input">
+    <input 
+      type="text" 
+      placeholder="Enter location..." 
+      value={location} 
+      onChange={(e) => setLocation(e.target.value)}
+    />
+    <button onClick={handleCombinedClick}>Get Weather</button>
+  </div>
+  {/* Always render data blocks, but fill them conditionally */}
+  <div className="data-block">
+    {weatherData ? (
+      <>
+        <p>Temperature: {weatherData.main.temp}°C</p>
+        <p>Humidity: {weatherData.main.humidity}%</p>
+        <p>Condition: {weatherData.weather[0].description}</p>
+        <p>Visibility Index: {weatherData.visibility}</p>
+        <p>Wind Speed: {weatherData.wind.speed} m/s</p>
+      </>
+    ) : (
+      <p>Enter Location to see Weather Data.</p>
+    )}
+  </div>
+  <div className="data-block">
+    {airPollutionData ? (
+      <>
+        <p>Air Quality Index (AQI): {airPollutionData.list[0].main.aqi}</p>
+        <p>PM2.5 Level: {airPollutionData.list[0].components.pm2_5} µg/m³</p>
+        <p>Ozone (O3) Level: {airPollutionData.list[0].components.o3} µg/m³</p>
+      </>
+    ) : (
+      <p>Enter Location to see Air Pollution Data.</p>
+    )}
+  </div>
+  <div className="health-recommendations">
+    <h3>Health Recommendations</h3>
+    {response ? <p>{response}</p> : <p>Enter Location to see Health Recommendation.</p>}
+  </div>
+</div>
   );
 };
 

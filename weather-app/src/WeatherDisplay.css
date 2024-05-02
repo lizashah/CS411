@@ -2,55 +2,79 @@
   padding: 20px;
   border-radius: 8px;
   background-color: #f0f0f0;
-  
-  width: 45%; /* Specific width */
-  height: 575px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  margin-bottom: 20px;
-}
-.weather-display .location-input input {
-  width: calc(100% - 50px); /* Adjust the width to fill the container minus padding */
-  padding: 10px;
-  font-size: 13px; /* Padding for better text visibility */
-  border: 2px solid #ccc; /* Light gray border */
-  border-radius: 5px; /* Rounded corners */
-  margin-bottom: 10px; /* Space below the input field */
-  box-sizing: border-box; /* Ensures padding doesn't affect the width */
-  transition: border-color 0.3s; /* Smooth transition for focus effect */
+  width: 600px; /* Fixed width instead of percentage */
+  height: 850px; /* Fixed height */
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
 }
 
-.weather-display .location-input input:focus {
-  outline: none; /* Removes default focus outline */
-  border-color: #007bff; /* Blue border on focus */
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Adds a glow effect on focus */
-}
-
-.weather-display .location-input button {
-  width: calc(100% - 50px); /* Full width of the container */
-  padding: 10px;
-  font-size: 13px; /* Padding for better clickability */
-  background-color: #ff6347; /* Primary blue background */
-  color: white; /* White text color */
-  border: none; /* No border */
-  border-radius: 5px; /* Rounded corners */
-  cursor: pointer; /* Pointer cursor on hover */
-  transition: background-color 0.3s, box-shadow 0.3s; /* Smooth transitions */
-}
-
-.weather-display .location-input button:hover {
-  background-color: #cd5c5c; /* Darker blue on hover */
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Subtle shadow for depth */
-}
-
-.weather-display .location-input button:active {
-  background-color: #004085; /* Even darker blue when clicked */
-  box-shadow: 0 1px 3px rgba(0,0,0,0.3) inset; /* Inset shadow for a pressed effect */
-}
-
-.weather-display h2 {
+.weather-display h2, .weather-display h3 {
   color: #333;
+  width: 100%;
+  text-align: left;
 }
 
 .weather-display p {
   color: #666;
+  margin: 5px 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.weather-display .location-input {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.weather-display .location-input input, .weather-display .location-input button {
+  width: 280px; /* Fixed width */
+  padding: 10px;
+  font-size: 14px;
+  margin-right: 10px; /* Only for input */
+}
+
+.weather-display .location-input button {
+  background-color: #ff6347;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.weather-display .location-input button:hover {
+  background-color: #cd5c5c;
+}
+
+/* Specific styles for data presentation */
+.weather-display .data-block {
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin-bottom: 10px;
+  width: 282px;
+  height: 150px; /* Ensure it fills the parent container */
+}
+
+/* Health recommendations styling */
+.health-recommendations {
+  background-color: #e8f0fe; /* Light blue background */
+  padding: 10px;
+  height: 400px;
+  width: 735px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin-top: 1px;
+   /* Ensure it fills the parent container */
+  color: #333;
+  font-weight: bold;
+}
+
+.weather-display .health-recommendations p {
+  color: #333; /* Darker text for emphasis */
 }
