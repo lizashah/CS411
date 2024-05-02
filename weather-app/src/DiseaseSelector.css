@@ -1,73 +1,28 @@
-/* DiseaseSelector.css */
-:root {
-    --primary-color: #ff6347; /* Coral */
-    --background-gradient-start: #ffefd5; /* Papaya Whip */
-    --background-gradient-end: #87ceeb; /* Sky Blue */
-    --login-form-background: rgba(255, 255, 255, 0.2); /* For a frosted glass look */
-    --login-btn-hover-color: #cd5c5c; /* Indian Red */
-  }
-  
-  body, html {
-    height: 100%;
-    margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(to right, var(--background-gradient-start), var(--background-gradient-end));
-    color: #333;
-  }
-  
-  .disease-selector {
+.disease-selector {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
     padding: 20px;
     border-radius: 8px;
-    background: var(--login-form-background);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    margin: auto;
-    margin-top: 50px; /* Adjust as necessary for alignment */
-    width: 90%;
-    max-width: 600px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin: 20px;
+    width: 300px;
   }
   
   .disease-selector h2 {
-    color: var(--primary-color);
-    text-align: center;
-    margin-bottom: 20px;
+    color: #333;
+    font-size: 20px;
   }
   
   .disease-selector div {
-    margin: 10px 0;
-    display: flex;
-    align-items: center;
+    margin-bottom: 10px;
   }
   
   .disease-selector input[type="checkbox"] {
     margin-right: 10px;
-    cursor: pointer;
   }
   
   .disease-selector label {
     font-size: 16px;
     color: #666;
-    cursor: pointer;
-  }
-  
-  /* Add button styles */
-  .button-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  
-  .button-container button {
-    padding: 10px 20px;
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .button-container button:hover {
-    background-color: var(--login-btn-hover-color);
   }
   
