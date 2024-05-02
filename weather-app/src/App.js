@@ -172,12 +172,12 @@ function App() {
               }} />
             )}
             {showDiseaseSelection && !showWeatherAndHealthInfo && (
-              <button onClick={handleDiseaseSelectionSubmit}>Submit Selections</button>
+              <button onClick={handleDiseaseSelectionSubmit} className="sub-btn">Submit Selections</button>
             )}
             {showWeatherAndHealthInfo && (
               <>
                 <WeatherDisplay updateHealthRecommendations={setHealthRecommendations} selectedDiseases={selectedDiseases} />
-            <HealthTips recommendations={healthRecommendations} />
+            
               </>
             )}
           </main>

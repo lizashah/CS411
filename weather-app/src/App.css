@@ -4,6 +4,7 @@
   --background-gradient-end: #87ceeb; /* Sky Blue */
   --login-form-background: rgba(255, 255, 255, 0.2); /* For a frosted glass look */
   --login-btn-hover-color: #cd5c5c; /* Indian Red */
+  --sub-btn-hover-color: #cd5c5c; /* Indian Red */
 }
 
 body, html {
@@ -105,6 +106,23 @@ body, html {
 }
 
 .login-btn:hover {
+  background-color: var(--login-btn-hover-color);
+}
+
+.sub-btn {
+  width: 30%;
+  padding: 12px;
+  border: none;
+  font-size: 14px; 
+  height: 40px;
+  border-radius: 5px;
+  background-color: var(--primary-color);
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.sub-btn:hover {
   background-color: var(--login-btn-hover-color);
 }
 

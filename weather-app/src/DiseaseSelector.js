@@ -1,4 +1,6 @@
 import React from 'react';
+import './DiseaseSelector.css';
+
 
 const diseases = [
   "Influenza",

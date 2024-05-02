@@ -21,7 +21,7 @@ const WeatherDisplay = ({ updateHealthRecommendations, selectedDiseases }) => {
         try {
           const response1 = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${API_KEY}&units=metric`);
           setWeatherData(response1.data);
-          handleGetRecommendation(response1.data, airPollutionData); // Call to fetch recommendations from OpenAI
+          //handleGetRecommendation(response1.data, airPollutionData); // Call to fetch recommendations from OpenAI
           setFetchData(false); // Reset fetchData 
         } catch (error) {
           console.error('Error fetching weather data:', error);
@@ -41,7 +41,7 @@ const WeatherDisplay = ({ updateHealthRecommendations, selectedDiseases }) => {
     if (!selectedDiseases.length) return;  // Check if there are selected diseases
     const diseasesList = selectedDiseases.join(", ");
     const airQualityInfo = `Air Quality Index (AQI): ${airPollutionData.list[0].main.aqi}, PM2.5 Level: ${airPollutionData.list[0].components.pm2_5} µg/m³, Ozone (O3) Level: ${airPollutionData.list[0].components.o3} µg/m³`;
-    const prompt = `Given the current weather conditions with a temperature of ${weather.main.temp}°C, humidity at ${weather.main.humidity}%, ${weather.weather[0].description}, visibility of ${weather.visibility} meters, wind speed of ${weather.wind.speed} m/s, ${airQualityInfo} air quality 1 is good 5 is very bad, and health conditions including ${diseasesList}, for the diseases and temperature should I go out, what preacautions should I take and appropriate health recommendations?`;
+    const prompt = `Given the current weather conditions with a temperature of ${weather.main.temp}°C, humidity at ${weather.main.humidity}%, ${weather.weather[0].description}, visibility of ${weather.visibility} meters, wind speed of ${weather.wind.speed} m/s, ${airQualityInfo} Air Quality Index: Possible values: 1, 2, 3, 4, 5. Where 1 = Good, 2 = Fair, 3 = Moderate, 4 = Poor, 5 = Very Poor, and health conditions including ${diseasesList}, for the diseases and temperature should I go out, what preacautions should I take and appropriate health recommendations?`;
 
     
 
@@ -90,13 +90,18 @@ const WeatherDisplay = ({ updateHealthRecommendations, selectedDiseases }) => {
 };
 
 const fetchAirPollutionData = async (lat, lon) => {
-    try {
-        const response = await axios.get(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`);
-        setAirPollutionData(response.data);
-    } catch (error) {
-        console.error('Error fetching air pollution data:', error);
-        alert('Failed to fetch air pollution data. Please check the console for more details.');
-    }
+  try {
+      const response = await axios.get(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`);
+      setAirPollutionData(response.data);
+      if (weatherData) {  // Ensure weatherData is not null
+          handleGetRecommendation(weatherData, response.data);
+      } else {
+          console.error('Weather data not available when fetching air pollution data');
+      }
+  } catch (error) {
+      console.error('Error fetching air pollution data:', error);
+      alert('Failed to fetch air pollution data. Please check the console for more details.');
+  }
 };
 
 const handleGetAirPollution = () => {
