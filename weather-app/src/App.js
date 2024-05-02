@@ -3,7 +3,6 @@ import jwt_decode from "jwt-decode";
 import './App.css';
 import DiseaseSelector from './DiseaseSelector';
 import WeatherDisplay from './WeatherDisplay';
-import HealthTips from './HealthTips';
 import { ref, set, get, child } from "firebase/database";
 import { db } from './firebase-config';
 
