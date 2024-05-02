@@ -3,7 +3,7 @@ CS411 Repository for Aleeza Shah, Muhammad Ghani, Ishita Agrawal
 
 # Weather and Health Advisor
 
-This project provides real-time weather and health recommendations based on user-selected diseases and current weather conditions. It integrates with Firebase for authentication and data storage, and utilizes OpenWeatherMap and OpenAI for fetching weather data and generating health recommendations.
+This project provides real-time weather and health recommendations based on user-selected diseases and current weather conditions. It uses Google OAuth for user authentication and Firebase for data storage, seamlessly integrating these services to enhance user experience.
 
 ## Prerequisites
 
@@ -65,6 +65,6 @@ Before you begin, ensure you have the following installed:
 
 ## Features
 
-- User Authentication: Sign in using Google authentication to save and access personalized settings.
-- Disease Selection: Users can select various diseases to consider when receiving health recommendations.
+- User Authentication: Uses Google OAuth for user authentication. Once authenticated, user details are stored in Firebase to personalize the experience.
+- Disease Selection: Users can select and save various diseases to consider when receiving health recommendations. The selections are saved to the Firebase database under "diseases" and are reloaded when the user logs back in, preserving their choices across sessions.
 - Weather and Health Recommendations: Fetches weather data and provides health recommendations based on the selected diseases and current weather conditions.
