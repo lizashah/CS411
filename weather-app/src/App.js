@@ -56,7 +56,7 @@ function App() {
   };
 
 
-  // Disease Selector part 
+  // Disease Selector part to fetch diseases
   const fetchExistingDiseases = (userId) => {
     get(child(ref(db), `users/${userId}/selectedDiseases`)).then((snapshot) => {
       if (snapshot.exists() && Array.isArray(snapshot.val())) {
@@ -67,7 +67,7 @@ function App() {
       }
     }).catch((error) => console.error("Failed to retrieve data", error));
   };
-    // Disease Selector part 
+    // Disease Selector part to append diseases to firebase database
   const handleDiseaseSelectionSubmit = () => {
     set(ref(db, 'users/' + user.sub + '/selectedDiseases'), Array.from(selectedDiseases));
     setShowWeatherAndHealthInfo(true);

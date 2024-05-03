@@ -3,7 +3,7 @@ import axios from 'axios';
 import './WeatherDisplay.css';
 import OpenAI from 'openai';
 
-
+// Main component for displaying weather and air quality information
 const WeatherDisplay = ({ updateHealthRecommendations, selectedDiseases }) => {
   const [weatherData, setWeatherData] = useState(null);
   const [airPollutionData, setAirPollutionData] = useState(null);  const [location, setLocation] = useState('');
@@ -11,10 +11,11 @@ const WeatherDisplay = ({ updateHealthRecommendations, selectedDiseases }) => {
   const [response, setResponse] = useState('');
   const [response1, setResponse1] = useState('');
   
-  
+  // API key for OpenWeatherMap
   const API_KEY = '04ae16b1094cee2dac21deb82bf0f81b'; 
 
   useEffect(() => {
+    // Function to fetch weather data based on location
     const fetchWeatherDataByLocation = async () => {
       if (fetchData && location) {
         try {
@@ -31,9 +32,11 @@ const WeatherDisplay = ({ updateHealthRecommendations, selectedDiseases }) => {
     fetchWeatherDataByLocation();
   }, [fetchData, location, API_KEY]); // Run the effect 
 
+  // Function to fetch coordinates based on location name 
   const fetchCoordinates = async (locationName) => {
     try {
         const geocodeUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${locationName}&limit=1&appid=${API_KEY}`;
+        // Uses geocoding to get lat long
         const geocodeResponse = await axios.get(geocodeUrl);
         if (geocodeResponse.data && geocodeResponse.data.length > 0) {
             const { lat, lon } = geocodeResponse.data[0];
@@ -47,6 +50,7 @@ const WeatherDisplay = ({ updateHealthRecommendations, selectedDiseases }) => {
     }
 };
 
+// Function to fetch air pollution data given latitude and longitude
 const fetchAirPollutionData = async (lat, lon) => {
   try {
       const response = await axios.get(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`);
@@ -62,15 +66,21 @@ const fetchAirPollutionData = async (lat, lon) => {
   }
 };
 
+  // Here we OpenAI client initialization 
   const openai = new OpenAI({
     apiKey: process.env.REACT_APP_OPENAI_API_KEY,
     dangerouslyAllowBrowser: true 
   });
-
+// Function to generate health recommendations
+// We use Open AI's GPT-4 model 
+//based on weather data and air pollution data 
   const handleGetRecommendation = async (weather, airPollutionData) => {
     if (!selectedDiseases.length) return;  // Check if there are selected diseases
+    // make the selected diseases in a string with a ','
     const diseasesList = selectedDiseases.join(", ");
+    // get the air quality inforamtion
     const airQualityInfo = `Air Quality Index (AQI): ${airPollutionData.list[0].main.aqi}, PM2.5 Level: ${airPollutionData.list[0].components.pm2_5} µg/m³, Ozone (O3) Level: ${airPollutionData.list[0].components.o3} µg/m³`;
+    //promt that we give to Open AI API
     const prompt = `Given the current weather conditions with a temperature of ${weather.main.temp}°C, humidity at ${weather.main.humidity}%, ${weather.weather[0].description}, visibility of ${weather.visibility} meters, wind speed of ${weather.wind.speed} m/s, ${airQualityInfo} Air Quality Index: Possible values: 1, 2, 3, 4, 5. Where 1 = Good, 2 = Fair, 3 = Moderate, 4 = Poor, 5 = Very Poor, and health conditions including ${diseasesList}, for the diseases and temperature should I go out, what preacautions should I take and appropriate health recommendations? Give response in 200 words `;
 
     
@@ -90,7 +100,7 @@ const fetchAirPollutionData = async (lat, lon) => {
   
       console.log('API Response:', JSON.stringify(result, null, 2)); // Better visibility of the structure
 
-      // Make sure that 'data' and 'choices' are present in the response
+      // Make sure that data and choices are present in the response
       if (result && result.choices && result.choices.length > 0) {
         setResponse(result.choices[0].message.content);
     } else {
@@ -103,7 +113,7 @@ const fetchAirPollutionData = async (lat, lon) => {
     }
   };
 
-
+// Button click handlers
 const handleGetAirPollution = () => {
     if (!location) {
         alert('Please enter a location name.');

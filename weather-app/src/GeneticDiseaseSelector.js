@@ -2,6 +2,14 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './GeneticDiseaseSelector.css'; 
 
+
+/*
+This is another API that we initially implemented to get the disease list
+NOW WE ARE NOT using this component we have a manual list 
+
+*/
+
+
 function GeneticDiseaseSelector() {
     const [diseases, setDiseases] = useState([]);
     const [selectedDiseases, setSelectedDiseases] = useState(new Set());

@@ -1,7 +1,7 @@
 import React from 'react';
 import './DiseaseSelector.css';
 
-
+//disease list for users
 const diseases = [
   "Influenza",
   "Common cold",
