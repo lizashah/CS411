@@ -5,6 +5,12 @@ CS411 Repository for Aleeza Shah, Muhammad Ghani, Ishita Agrawal
 
 This project provides real-time weather and health recommendations based on user-selected diseases and current weather conditions. It uses Google OAuth for user authentication and Firebase for data storage, seamlessly integrating these services to enhance user experience.
 
+## Features
+
+- User Authentication: Users can sign in using Google authentication. Upon login, user information is saved to Firebase to maintain session state and user preferences.
+- Disease Selection: Users can select various diseases from a list that is stored and retrieved from Firebase under the 'diseases' key. Selected diseases are saved to the user's profile in the database, and upon returning to the application, these selections are pre-loaded based on the user's last session.
+- Weather and Health Recommendations: Utilizes the OpenWeather API to fetch current weather data and air quality indices based on geocoded latitude and longitude from the entered location. The application sends all weather data, air quality information, and the user's selected disease list to OpenAI, which then generates personalized health recommendations.
+
 ## Prerequisites
 
 Before you begin, ensure you have the following installed:
@@ -62,9 +68,3 @@ Before you begin, ensure you have the following installed:
    npm run build
    
    This builds the app for production to the `build` folder. It correctly bundles React in production mode and optimizes the build for the best performance.
-
-## Features
-
-- User Authentication: Uses Google OAuth for user authentication. Once authenticated, user details are stored in Firebase to personalize the experience.
-- Disease Selection: Users can select and save various diseases to consider when receiving health recommendations. The selections are saved to the Firebase database under "diseases" and are reloaded when the user logs back in, preserving their choices across sessions.
-- Weather and Health Recommendations: Fetches weather data and provides health recommendations based on the selected diseases and current weather conditions.
