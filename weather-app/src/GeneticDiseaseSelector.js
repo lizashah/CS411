@@ -13,7 +13,7 @@ function GeneticDiseaseSelector() {
             try {
                 const response = await axios.get('https://clinicaltables.nlm.nih.gov/api/disease_names/v3/search', {
                     params: {
-                        terms: '',  // Example term, adjust as necessary
+                        terms: '',  
                         maxList: 1000,
                         df: 'DiseaseName'
                     }

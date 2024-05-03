@@ -3,8 +3,8 @@
   border-radius: 8px;
   background-color: #f0f0f0;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  width: 600px; /* Fixed width instead of percentage */
-  height: 850px; /* Fixed height */
+  width: 600px; 
+  height: 850px;
   margin: 20px auto;
   display: flex;
   flex-direction: column;
@@ -31,10 +31,10 @@
 }
 
 .weather-display .location-input input, .weather-display .location-input button {
-  width: 280px; /* Fixed width */
+  width: 280px; 
   padding: 10px;
   font-size: 14px;
-  margin-right: 10px; /* Only for input */
+  margin-right: 10px;
 }
 
 .weather-display .location-input button {
@@ -50,7 +50,6 @@
   background-color: #cd5c5c;
 }
 
-/* Specific styles for data presentation */
 .weather-display .data-block {
   background-color: #fff;
   padding: 10px;
@@ -58,23 +57,21 @@
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   margin-bottom: 10px;
   width: 282px;
-  height: 150px; /* Ensure it fills the parent container */
+  height: 150px; 
 }
 
-/* Health recommendations styling */
 .health-recommendations {
-  background-color: #e8f0fe; /* Light blue background */
+  background-color: #e8f0fe; 
   padding: 10px;
   height: 400px;
   width: 735px;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   margin-top: 1px;
-   /* Ensure it fills the parent container */
   color: #333;
   font-weight: bold;
 }
 
 .weather-display .health-recommendations p {
-  color: #333; /* Darker text for emphasis */
+  color: #333; 
 }

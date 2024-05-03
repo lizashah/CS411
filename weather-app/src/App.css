@@ -1,10 +1,10 @@
 :root {
-  --primary-color: #ff6347; /* Coral */
-  --background-gradient-start: #ffefd5; /* Papaya Whip */
-  --background-gradient-end: #87ceeb; /* Sky Blue */
-  --login-form-background: rgba(255, 255, 255, 0.2); /* For a frosted glass look */
-  --login-btn-hover-color: #cd5c5c; /* Indian Red */
-  --sub-btn-hover-color: #cd5c5c; /* Indian Red */
+  --primary-color: #ff6347; 
+  --background-gradient-start: #ffefd5; 
+  --background-gradient-end: #87ceeb; 
+  --login-form-background: rgba(255, 255, 255, 0.2); 
+  --login-btn-hover-color: #cd5c5c; 
+  --sub-btn-hover-color: #cd5c5c; 
 }
 
 body, html {
@@ -24,10 +24,10 @@ body, html {
 }
 .App-header button {
   position: absolute;
-  top: 20px; /* Adjust top spacing */
-  right: 20px; /* Adjust right spacing */
-  padding: 8px 16px; /* Adjust padding for better size */
-  font-size: 14px; /* Adjust font size */
+  top: 20px; 
+  right: 20px; 
+  padding: 8px 16px; 
+  font-size: 14px; 
   background-color: #ff6347;
   color: white;
   border: none;
@@ -41,7 +41,7 @@ body, html {
 }
 .App-header h1 {
   color: #333333; 
-  padding-left: 100px;/* Change the color to dark gray */
+  padding-left: 100px;
 }
 
 .login-form-container {
@@ -79,7 +79,7 @@ body, html {
 }
 
 .login-form input {
-  width: calc(100% - 24px); /* Adjust width based on padding */
+  width: calc(100% - 24px); 
   padding: 12px;
   border: none;
   border-radius: 5px;
@@ -143,22 +143,22 @@ body, html {
 
 .weather-display {
   flex: 1;
-  margin-right: 10px; /* Adjust margin as needed */
+  margin-right: 10px; 
 }
 
 .health-tips {
   flex: 1;
-  margin-left: 10px; /* Adjust margin as needed */
+  margin-left: 10px; 
 }
 
 
 .info-display {
   display: flex;
-  justify-content: space-around; /* Ensures equal spacing around items */
-  align-items: start; /* Aligns items to the top of the container */
-  flex-wrap: wrap; /* Allows items to wrap onto the next line on smaller screens */
-  padding: 20px; /* Adds padding around items */
-  width: 800px; /* Set a static width */
+  justify-content: space-around; 
+  align-items: start; 
+  flex-wrap: wrap; 
+  padding: 20px; 
+  width: 800px; 
   margin: 0 auto; 
   
   

@@ -15,40 +15,8 @@ function App() {
   const [healthRecommendations, setHealthRecommendations] = useState(null);
   const [showWeatherAndHealthInfo, setShowWeatherAndHealthInfo] = useState(false);
 
-  function handleCallbackResponse(response) {
-    var userObject = jwt_decode(response.credential);
-    setUser(userObject);
-    checkAndSaveUserData(userObject.sub, userObject.name, userObject.email);
-    fetchExistingDiseases(userObject.sub);
-    setShowDiseaseSelection(true);
-  }
 
-  function handleSignOut() {
-    setUser({});
-    setShowDiseaseSelection(false);
-    setShowWeatherAndHealthInfo(false);
-  }
-
-  const checkAndSaveUserData = (userId, name, email) => {
-    const userRef = ref(db, 'users/' + userId);
-    get(userRef).then((snapshot) => {
-      if (!snapshot.exists()) {
-        set(userRef, { username: name, email: email });
-      }
-    }).catch((error) => console.error("Failed to check or save user data", error));
-  };
-
-  const fetchExistingDiseases = (userId) => {
-    get(child(ref(db), `users/${userId}/selectedDiseases`)).then((snapshot) => {
-      if (snapshot.exists() && Array.isArray(snapshot.val())) {
-        setSelectedDiseases(snapshot.val());
-      } else {
-        console.log("No diseases found for user or data format incorrect.");
-        setSelectedDiseases([]);
-      }
-    }).catch((error) => console.error("Failed to retrieve data", error));
-  };
-
+  //google login 
   useEffect(() => {
     /* global google */
     google.accounts.id.initialize({
@@ -60,10 +28,52 @@ function App() {
     google.accounts.id.prompt();
   }, []);
 
+  //Sign in callback 
+  function handleCallbackResponse(response) {
+    var userObject = jwt_decode(response.credential);
+    setUser(userObject);
+    checkAndSaveUserData(userObject.sub, userObject.name, userObject.email);
+    fetchExistingDiseases(userObject.sub);
+    setShowDiseaseSelection(true);
+  }
+
+  //google sign out 
+  function handleSignOut() {
+    setUser({});
+    setShowDiseaseSelection(false);
+    setShowWeatherAndHealthInfo(false);
+  }
+  
+
+  // firebase 
+  const checkAndSaveUserData = (userId, name, email) => {
+    const userRef = ref(db, 'users/' + userId);
+    get(userRef).then((snapshot) => {
+      if (!snapshot.exists()) {
+        set(userRef, { username: name, email: email });
+      }
+    }).catch((error) => console.error("Failed to check or save user data", error));
+  };
+
+
+  // Disease Selector part 
+  const fetchExistingDiseases = (userId) => {
+    get(child(ref(db), `users/${userId}/selectedDiseases`)).then((snapshot) => {
+      if (snapshot.exists() && Array.isArray(snapshot.val())) {
+        setSelectedDiseases(snapshot.val());
+      } else {
+        console.log("No diseases found for user or data format incorrect.");
+        setSelectedDiseases([]);
+      }
+    }).catch((error) => console.error("Failed to retrieve data", error));
+  };
+    // Disease Selector part 
   const handleDiseaseSelectionSubmit = () => {
     set(ref(db, 'users/' + user.sub + '/selectedDiseases'), Array.from(selectedDiseases));
     setShowWeatherAndHealthInfo(true);
   };
+
+  
 
   const updateHealthRecommendations = (data) => {
     setHealthRecommendations({
@@ -75,6 +85,8 @@ function App() {
     });
   };
 
+  // this is old integration when we were given recommendations mannually 
+  //not used now 
   const getUVRecommendation = (uvIndex) => {
     if (uvIndex < 3) {
       return 'Low UV Index: No protection needed.';

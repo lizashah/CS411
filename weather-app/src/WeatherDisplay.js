@@ -31,9 +31,40 @@ const WeatherDisplay = ({ updateHealthRecommendations, selectedDiseases }) => {
     fetchWeatherDataByLocation();
   }, [fetchData, location, API_KEY]); // Run the effect 
 
+  const fetchCoordinates = async (locationName) => {
+    try {
+        const geocodeUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${locationName}&limit=1&appid=${API_KEY}`;
+        const geocodeResponse = await axios.get(geocodeUrl);
+        if (geocodeResponse.data && geocodeResponse.data.length > 0) {
+            const { lat, lon } = geocodeResponse.data[0];
+            fetchAirPollutionData(lat, lon);
+        } else {
+            alert('Unable to find location. Please check the location name and try again.');
+        }
+    } catch (error) {
+        console.error('Error fetching coordinates:', error);
+        alert('Failed to fetch coordinates. Check the console for more details.');
+    }
+};
+
+const fetchAirPollutionData = async (lat, lon) => {
+  try {
+      const response = await axios.get(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`);
+      setAirPollutionData(response.data);
+      if (weatherData) {  // Ensure weatherData is not null
+          handleGetRecommendation(weatherData, response.data);
+      } else {
+          console.error('Weather data not available when fetching air pollution data');
+      }
+  } catch (error) {
+      console.error('Error fetching air pollution data:', error);
+      alert('Failed to fetch air pollution data. Please check the console for more details.');
+  }
+};
+
   const openai = new OpenAI({
     apiKey: process.env.REACT_APP_OPENAI_API_KEY,
-    dangerouslyAllowBrowser: true // Ensure you understand security implications
+    dangerouslyAllowBrowser: true 
   });
 
   const handleGetRecommendation = async (weather, airPollutionData) => {
@@ -72,36 +103,6 @@ const WeatherDisplay = ({ updateHealthRecommendations, selectedDiseases }) => {
     }
   };
 
-  const fetchCoordinates = async (locationName) => {
-    try {
-        const geocodeUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${locationName}&limit=1&appid=${API_KEY}`;
-        const geocodeResponse = await axios.get(geocodeUrl);
-        if (geocodeResponse.data && geocodeResponse.data.length > 0) {
-            const { lat, lon } = geocodeResponse.data[0];
-            fetchAirPollutionData(lat, lon);
-        } else {
-            alert('Unable to find location. Please check the location name and try again.');
-        }
-    } catch (error) {
-        console.error('Error fetching coordinates:', error);
-        alert('Failed to fetch coordinates. Check the console for more details.');
-    }
-};
-
-const fetchAirPollutionData = async (lat, lon) => {
-  try {
-      const response = await axios.get(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`);
-      setAirPollutionData(response.data);
-      if (weatherData) {  // Ensure weatherData is not null
-          handleGetRecommendation(weatherData, response.data);
-      } else {
-          console.error('Weather data not available when fetching air pollution data');
-      }
-  } catch (error) {
-      console.error('Error fetching air pollution data:', error);
-      alert('Failed to fetch air pollution data. Please check the console for more details.');
-  }
-};
 
 const handleGetAirPollution = () => {
     if (!location) {
@@ -134,7 +135,7 @@ const handleGetAirPollution = () => {
     />
     <button onClick={handleCombinedClick}>Get Weather</button>
   </div>
-  {/* Always render data blocks, but fill them conditionally */}
+  {/* Always render data blocks */}
   <div className="data-block">
     {weatherData ? (
       <>

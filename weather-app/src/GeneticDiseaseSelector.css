@@ -1,39 +1,34 @@
-/* Style for the main container of the disease selector */
 .genetic-disease-container {
     padding: 20px;
-    background-color: #f4f4f4; /* Light grey background for better visibility */
-    border-radius: 8px; /* Rounded corners for the container */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Subtle shadow for depth */
-    max-width: 600px; /* Maximum width to keep the list manageable */
-    margin: 20px auto; /* Centering the container */
+    background-color: #f4f4f4; 
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+    max-width: 600px; 
+    margin: 20px auto; 
 }
 
-/* Style for the scrollable list */
 .scrollable-list {
-    height: 300px; /* Fixed height to make the list scrollable */
-    overflow-y: auto; /* Enable vertical scrolling */
-    border: 1px solid #ccc; /* Subtle border for the list */
-    border-radius: 5px; /* Rounded corners for the list */
-    background-color: #fff; /* White background for the list */
-    list-style-type: none; /* Remove default list styles */
-    padding: 10px; /* Padding inside the list */
-    margin-top: 10px; /* Space above the list */
+    height: 300px; 
+    overflow-y: auto; 
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    background-color: #fff; 
+    list-style-type: none; 
+    padding: 10px; 
+    margin-top: 10px; 
 }
 
-/* Style for each list item */
 .scrollable-list li {
-    margin-bottom: 10px; /* Space between items */
+    margin-bottom: 10px; 
 }
 
-/* Style for labels and checkboxes */
 .scrollable-list label {
-    display: block; /* Ensure the label uses the full width of the list item */
-    cursor: pointer; /* Pointer cursor on hover over the label */
-    font-size: 16px; /* Larger font size for readability */
-    color: #333; /* Darker text for better visibility */
+    display: block; 
+    cursor: pointer; 
+    font-size: 16px; 
+    color: #333; 
 }
 
-/* Style for the checkboxes */
 .scrollable-list input[type="checkbox"] {
-    margin-right: 10px; /* Space between the checkbox and the label text */
+    margin-right: 10px; 
 }

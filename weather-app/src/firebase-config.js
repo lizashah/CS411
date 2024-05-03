@@ -1,9 +1,9 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getDatabase } from "firebase/database"; // Import for Firebase Realtime Database
+import { getDatabase } from "firebase/database"; 
 
-// Your web app's Firebase configuration
+// Web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDyzmsaH8dCaenYHLFw0efFwdF0r6nvjT0",
   authDomain: "cs411-location-preferences.firebaseapp.com",
@@ -15,9 +15,9 @@ const firebaseConfig = {
   measurementId: "G-JFVTZ5X404"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const db = getDatabase(app); // This line initializes the Firebase Realtime Database
 
-export { db }; // Ensure 'db' is exported
+const app = initializeApp(firebaseConfig); // Initialize Firebase
+const analytics = getAnalytics(app);
+const db = getDatabase(app); 
+
+export { db }; // db is exported
