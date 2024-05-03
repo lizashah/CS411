@@ -12,7 +12,7 @@ const WeatherDisplay = ({ updateHealthRecommendations, selectedDiseases }) => {
   const [response1, setResponse1] = useState('');
   
   // API key for OpenWeatherMap
-  const API_KEY = '04ae16b1094cee2dac21deb82bf0f81b'; 
+  const API_KEY = ''; // removed OpenWeatherMap API
 
   useEffect(() => {
     // Function to fetch weather data based on location
